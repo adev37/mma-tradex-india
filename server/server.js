@@ -1,16 +1,16 @@
 // server.js
+import 'dotenv/config';  // ← SABSE PEHLE (imports se pehle)
+
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import contactRoutes from "./routes/contact.js";
 
-dotenv.config();
 connectDB();
 
 const app = express();
 
-// ✅ CORS - Multiple Origins Allowed
+// CORS - Multiple Origins
 const allowedOrigins = [
   'https://mmatradex.com',
   'https://www.mmatradex.com',
@@ -23,7 +23,6 @@ const allowedOrigins = [
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    
     if (allowedOrigins.indexOf(origin) !== -1) {
       console.log('✅ CORS allowed:', origin);
       callback(null, true);
@@ -37,36 +36,29 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
 }));
 
-// Handle preflight
 app.options('*', cors());
 
-// Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
 app.use("/api/contact", contactRoutes);
 
-// Health check (Render ke liye)
 app.get("/health", (req, res) => res.send("OK"));
 
-// Root
 app.get("/", (req, res) => {
   res.send("MMA Tradex LLP API is running.");
 });
 
-// 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Error handler
 app.use((err, req, res, next) => {
   console.error('❌ Server error:', err);
   res.status(500).json({ error: err.message || 'Internal server error' });
 });
 
-const PORT = process.env.PORT || 10000;  // ← Render ke liye 10000
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`🌐 Allowed origins:`, allowedOrigins);
