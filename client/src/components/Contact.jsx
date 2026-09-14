@@ -62,7 +62,7 @@ export default function Contact() {
             </div>
             <div className="row">
               <span>Email</span>
-              <span>contact@mmatradex.com</span>
+              <span>mmatradex35@gmail.com</span>
             </div>
           </div>
         </div>
