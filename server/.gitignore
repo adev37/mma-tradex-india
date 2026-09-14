@@ -8,13 +8,13 @@ yarn.lock
 .env.local
 .env.*.local
 
+# Logs
+*.log
+npm-debug.log*
+
 # Build
 dist/
 build/
-.next/
-
-# Vite
-.vite/
 
 # IDE
 .vscode/
@@ -23,6 +23,3 @@ build/
 # OS
 .DS_Store
 Thumbs.db
-
-# Logs
-*.log

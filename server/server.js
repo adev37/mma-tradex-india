@@ -1,3 +1,4 @@
+// server.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -9,14 +10,64 @@ connectDB();
 
 const app = express();
 
-app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
-app.use(express.json());
+// ✅ CORS - Multiple Origins Allowed
+const allowedOrigins = [
+  'https://mmatradex.com',
+  'https://www.mmatradex.com',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:4173',
+  process.env.CLIENT_URL
+].filter(Boolean);
 
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      console.log('✅ CORS allowed:', origin);
+      callback(null, true);
+    } else {
+      console.log('❌ CORS blocked:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+}));
+
+// Handle preflight
+app.options('*', cors());
+
+// Body parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
 app.use("/api/contact", contactRoutes);
 
+// Health check (Render ke liye)
+app.get("/health", (req, res) => res.send("OK"));
+
+// Root
 app.get("/", (req, res) => {
   res.send("MMA Tradex LLP API is running.");
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+  console.error('❌ Server error:', err);
+  res.status(500).json({ error: err.message || 'Internal server error' });
+});
+
+const PORT = process.env.PORT || 10000;  // ← Render ke liye 10000
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🌐 Allowed origins:`, allowedOrigins);
+});
