@@ -1,5 +1,5 @@
 // server.js
-import 'dotenv/config';  // ← SABSE PEHLE (imports se pehle)
+import 'dotenv/config';
 
 import express from "express";
 import cors from "cors";
@@ -33,7 +33,7 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'x-admin-key']
 }));
 
 app.options('*', cors());

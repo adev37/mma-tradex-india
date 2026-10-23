@@ -1,0 +1,55 @@
+/* ============================================
+   PREMIUM TECH & IPR THEME (Emerald & Gold)
+   ============================================ */
+
+@theme {
+  /* ---------- BACKGROUNDS (Obsidian Dark) ---------- */
+  --color-background:       #09090B;  /* Deepest Black */
+  --color-surface:          #121214;  /* Slightly lighter */
+  --color-surface-hover:    #18181B;  
+
+  /* ---------- PRIMARY (Emerald Green) ---------- */
+  --color-primary:          #10B981;  /* Emerald */
+  --color-primary-hover:    #059669;
+  --color-primary-glow:     rgba(16, 185, 129, 0.2); 
+
+  /* ---------- ACCENT (Warm Gold/Amber) ---------- */
+  --color-accent:           #F59E0B;  /* Gold */
+  --color-accent-hover:     #D97706;
+
+  /* ---------- TEXT ---------- */
+  --color-foreground:       #FAFAFA;  /* Off-white */
+  --color-muted:            #A1A1AA;  /* Gray text */
+  
+  /* ---------- BORDERS ---------- */
+  --color-border:           #27272A;
+  --color-border-hover:     #3F3F46;
+  
+  /* ---------- STATUS ---------- */
+  --color-success:          #10B981;
+  --color-error:            #EF4444;
+}
+
+/* ============================================
+   LIGHT THEME OVERRIDES
+   Jab HTML tag pe 'light' class hogi, tab ye colors apply honge.
+   (Default abhi dark hi rahega)
+   ============================================ */
+:root.light {
+  --color-background:       #FAFAFA;  /* Off-white */
+  --color-surface:          #FFFFFF;  /* Pure White */
+  --color-surface-hover:    #F4F4F5;  
+
+  --color-primary:          #059669;  /* Darker Emerald for light bg */
+  --color-primary-hover:    #047857;
+  --color-primary-glow:     rgba(5, 150, 105, 0.15); 
+
+  --color-accent:           #D97706;  /* Darker Gold */
+  --color-accent-hover:     #B45309;
+
+  --color-foreground:       #09090B;  /* Almost Black text */
+  --color-muted:            #52525B;  /* Gray text */
+  
+  --color-border:           #E4E4E7;
+  --color-border-hover:     #D4D4D8;
+}

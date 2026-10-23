@@ -1,23 +1,42 @@
-import Header from "./components/Header.jsx";
-import Hero from "./components/Hero.jsx";
-import WhatWeDo from "./components/WhatWeDo.jsx";
-import IprAdvantage from "./components/IprAdvantage.jsx";
-import Process from "./components/Process.jsx";
-import About from "./components/About.jsx";
-import Contact from "./components/Contact.jsx";
-import Footer from "./components/Footer.jsx";
+import { Routes, Route } from "react-router-dom";
+import Header from "./components/layout/Header";
+import Hero from "./components/sections/Hero";
+import WhatWeDo from "./components/sections/WhatWeDo";
+import Advantage from "./components/sections/Advantage";
+import Process from "./components/sections/Process";
+import About from "./components/sections/About";
+import Contact from "./components/sections/Contact";
+import Footer from "./components/layout/Footer";
+import AIChatbot from "./components/ui/AIChatbot";
+import AdminDashboard from "./pages/AdminDashboard"; // <-- Naya Import
+import useScrollAnimation from "./hooks/useScrollAnimation";
 
 export default function App() {
+  useScrollAnimation();
+
   return (
-    <div className="App">
-      <Header />
-      <Hero />
-      <WhatWeDo />
-      <IprAdvantage />
-      <Process />
-      <About />
-      <Contact />
-      <Footer />
+    <div className="bg-background min-h-screen text-foreground font-sans selection:bg-primary/30">
+      <Routes>
+        {/* Main Website Route */}
+        <Route path="/" element={
+          <>
+            <Header />
+            <main>
+              <Hero />
+              <WhatWeDo />
+              <Advantage />
+              <Process />
+              <About />
+              <Contact />
+            </main>
+            <Footer />
+            <AIChatbot />
+          </>
+        } />
+        
+        {/* Admin Route */}
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
     </div>
   );
 }
