@@ -6,6 +6,7 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import contactRoutes from "./routes/contact.js";
 import aiRoutes from "./routes/ai.js"; // <-- AI Route Import
+import leadRoutes from "./routes/lead.js"; 
 
 connectDB();
 
@@ -47,6 +48,7 @@ app.use(express.urlencoded({ extended: true }));
 // ==========================================
 app.use("/api/contact", contactRoutes);
 app.use("/api/ai", aiRoutes); // <-- YE LINE YAHAN AAYEGI
+app.use("/api/lead", leadRoutes);
 
 app.get("/health", (req, res) => res.send("OK"));
 

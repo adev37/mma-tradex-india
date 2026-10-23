@@ -5,11 +5,14 @@ export default function AdminDashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [messages, setMessages] = useState([]);
+  const [leads, setLeads] = useState([]);
+  const [activeTab, setActiveTab] = useState("messages");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   
-  // Naya State: Selected message ko popup me dikhane ke liye
+  // Popups ke states
   const [selectedMessage, setSelectedMessage] = useState(null);
+  const [selectedLead, setSelectedLead] = useState(null); // Naya lead popup state
 
   const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
 
@@ -19,6 +22,7 @@ export default function AdminDashboard() {
     setError("");
 
     try {
+      // 1. Contact Messages fetch karo
       const res = await fetch(`${API_URL}/api/contact/messages`, {
         headers: { "x-admin-key": password }
       });
@@ -27,7 +31,17 @@ export default function AdminDashboard() {
         const data = await res.json();
         setMessages(data);
         setIsAuthenticated(true);
-        localStorage.setItem("admin_key", password); 
+        localStorage.setItem("admin_key", password);
+
+        // 2. AI Leads fetch karo
+        const leadsRes = await fetch(`${API_URL}/api/lead`, {
+          headers: { "x-admin-key": password }
+        });
+        if (leadsRes.ok) {
+          const leadsData = await leadsRes.json();
+          setLeads(leadsData);
+        }
+
       } else {
         setError("Galat Password! Access denied.");
       }
@@ -90,7 +104,7 @@ export default function AdminDashboard() {
         <div className="flex justify-between items-center mb-8 bg-surface border border-border p-6 rounded-2xl">
           <div>
             <h1 className="text-2xl font-serif font-bold text-foreground">Admin Dashboard</h1>
-            <p className="text-sm text-muted mt-1">Manage contact inquiries</p>
+            <p className="text-sm text-muted mt-1">Manage contact inquiries & AI leads</p>
           </div>
           <div className="flex gap-4">
             <Link to="/" className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors">View Site</Link>
@@ -98,60 +112,112 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Data Table */}
-        <div className="bg-surface border border-border rounded-2xl overflow-hidden shadow-xl">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-background/50 border-b border-border">
-                  <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Name</th>
-                  <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Email</th>
-                  <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider w-1/2">Message</th>
-                  <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Date</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/50">
-                {messages.length === 0 ? (
-                  <tr>
-                    <td colSpan="4" className="p-8 text-center text-muted">No messages found.</td>
-                  </tr>
-                ) : (
-                  messages.map((msg) => (
-                    // ROW PE CLICK EVENT ADD KAR DIYA HAI
-                    <tr 
-                      key={msg._id} 
-                      onClick={() => setSelectedMessage(msg)}
-                      className="hover:bg-surface-hover cursor-pointer transition-colors group"
-                    >
-                      <td className="p-4 text-sm font-medium text-foreground group-hover:text-primary transition-colors">{msg.name}</td>
-                      <td className="p-4 text-sm text-primary"><a href={`mailto:${msg.email}`} onClick={(e) => e.stopPropagation()}>{msg.email}</a></td>
-                      {/* Message ko truncate kar diya taaki table kharab na ho */}
-                      <td className="p-4 text-sm text-muted leading-relaxed truncate max-w-xs">{msg.message}</td>
-                      <td className="p-4 text-xs text-muted whitespace-nowrap">{new Date(msg.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+        {/* TABS NAVIGATION */}
+        <div className="flex border-b border-border mb-6">
+          <button 
+            onClick={() => setActiveTab("messages")}
+            className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === "messages" ? "border-primary text-primary" : "border-transparent text-muted hover:text-foreground"}`}
+          >
+            Contact Inquiries
+          </button>
+          <button 
+            onClick={() => setActiveTab("leads")}
+            className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === "leads" ? "border-primary text-primary" : "border-transparent text-muted hover:text-foreground"}`}
+          >
+            AI Chat Leads
+          </button>
         </div>
+
+        {/* TABLE 1: Contact Messages */}
+        {activeTab === "messages" && (
+          <div className="bg-surface border border-border rounded-2xl overflow-hidden shadow-xl">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-background/50 border-b border-border">
+                    <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Name</th>
+                    <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Email</th>
+                    <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider w-1/2">Message</th>
+                    <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/50">
+                  {messages.length === 0 ? (
+                    <tr>
+                      <td colSpan="4" className="p-8 text-center text-muted">No messages found.</td>
+                    </tr>
+                  ) : (
+                    messages.map((msg) => (
+                      <tr 
+                        key={msg._id} 
+                        onClick={() => setSelectedMessage(msg)}
+                        className="hover:bg-surface-hover cursor-pointer transition-colors group"
+                      >
+                        <td className="p-4 text-sm font-medium text-foreground group-hover:text-primary transition-colors">{msg.name}</td>
+                        <td className="p-4 text-sm text-primary"><a href={`mailto:${msg.email}`} onClick={(e) => e.stopPropagation()}>{msg.email}</a></td>
+                        <td className="p-4 text-sm text-muted leading-relaxed truncate max-w-xs">{msg.message}</td>
+                        <td className="p-4 text-xs text-muted whitespace-nowrap">{new Date(msg.createdAt).toLocaleDateString()}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* TABLE 2: AI Chat Leads */}
+        {activeTab === "leads" && (
+          <div className="bg-surface border border-border rounded-2xl overflow-hidden shadow-xl">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-background/50 border-b border-border">
+                    <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Name</th>
+                    <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Email</th>
+                    <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider w-1/2">Chat Summary</th>
+                    <th className="p-4 text-xs font-mono text-muted uppercase tracking-wider">Date</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/50">
+                  {leads.length === 0 ? (
+                    <tr>
+                      <td colSpan="4" className="p-8 text-center text-muted">No AI leads found yet.</td>
+                    </tr>
+                  ) : (
+                    leads.map((lead) => (
+                      <tr 
+                        key={lead._id} 
+                        onClick={() => setSelectedLead(lead)}
+                        className="hover:bg-surface-hover cursor-pointer transition-colors group"
+                      >
+                        <td className="p-4 text-sm font-medium text-foreground group-hover:text-accent transition-colors">{lead.name}</td>
+                        <td className="p-4 text-sm text-primary"><a href={`mailto:${lead.email}`} onClick={(e) => e.stopPropagation()}>{lead.email}</a></td>
+                        <td className="p-4 text-sm text-muted leading-relaxed truncate max-w-xs">{lead.summary}</td>
+                        <td className="p-4 text-xs text-muted whitespace-nowrap">{new Date(lead.createdAt).toLocaleDateString()}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
       </div>
 
-      {/* --- MODAL POPUP (Jab row pe click hoga tab dikhega) --- */}
+      {/* --- MESSAGE MODAL POPUP --- */}
       {selectedMessage && (
         <div 
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200"
-          onClick={() => setSelectedMessage(null)} // Background pe click karne se band hoga
+          onClick={() => setSelectedMessage(null)}
         >
           <div 
             className="bg-surface border border-border rounded-2xl w-full max-w-lg shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-200"
-            onClick={(e) => e.stopPropagation()} // Popup ke andar click karne se band na ho
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Top Gradient Line */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
 
-            {/* Modal Header */}
             <div className="flex justify-between items-start p-6 border-b border-border/50">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary text-xl font-bold uppercase">
@@ -170,7 +236,6 @@ export default function AdminDashboard() {
               </button>
             </div>
 
-            {/* Modal Body (Full Message) */}
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-xs font-mono text-muted uppercase tracking-wider">Message Received</span>
@@ -181,7 +246,6 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Modal Footer (Actions) */}
             <div className="p-6 bg-background/50 border-t border-border/50 flex gap-3">
               <a 
                 href={`mailto:${selectedMessage.email}?subject=Reply to your inquiry - MMA Tradex LLP`}
@@ -192,6 +256,65 @@ export default function AdminDashboard() {
               </a>
               <button 
                 onClick={() => setSelectedMessage(null)}
+                className="px-6 py-3 text-sm font-medium text-foreground bg-surface border border-border rounded-xl hover:bg-surface-hover transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- LEAD MODAL POPUP --- */}
+      {selectedLead && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200"
+          onClick={() => setSelectedLead(null)}
+        >
+          <div 
+            className="bg-surface border border-border rounded-2xl w-full max-w-lg shadow-2xl relative overflow-hidden animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent"></div>
+
+            <div className="flex justify-between items-start p-6 border-b border-border/50">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center text-accent text-xl font-bold uppercase">
+                  {selectedLead.name.charAt(0)}
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-foreground">{selectedLead.name}</h3>
+                  <p className="text-sm text-muted">{selectedLead.email}</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setSelectedLead(null)}
+                className="p-2 text-muted hover:text-foreground bg-background rounded-full transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-xs font-mono text-accent uppercase tracking-wider">AI Chat Summary</span>
+                <span className="text-xs text-muted">{new Date(selectedLead.createdAt).toLocaleString()}</span>
+              </div>
+              <div className="bg-background border border-border/50 rounded-xl p-4 text-sm text-foreground leading-relaxed whitespace-pre-wrap max-h-[300px] overflow-y-auto">
+                {selectedLead.summary}
+              </div>
+            </div>
+
+            <div className="p-6 bg-background/50 border-t border-border/50 flex gap-3">
+              <a 
+                href={`mailto:${selectedLead.email}?subject=Following up on your AI chat - MMA Tradex LLP`}
+                className="flex-1 bg-accent text-white font-bold py-3 rounded-xl hover:bg-accent-hover transition-colors flex items-center justify-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                Reply via Email
+              </a>
+              <button 
+                onClick={() => setSelectedLead(null)}
                 className="px-6 py-3 text-sm font-medium text-foreground bg-surface border border-border rounded-xl hover:bg-surface-hover transition-colors"
               >
                 Close
