@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import contactRoutes from "./routes/contact.js";
+import aiRoutes from "./routes/ai.js"; // <-- AI Route Import
 
 connectDB();
 
@@ -41,7 +42,11 @@ app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// ==========================================
+// SAARE ROUTES YAHAN AAYENGE (404 HANDLER SE PEHLE)
+// ==========================================
 app.use("/api/contact", contactRoutes);
+app.use("/api/ai", aiRoutes); // <-- YE LINE YAHAN AAYEGI
 
 app.get("/health", (req, res) => res.send("OK"));
 
@@ -49,10 +54,14 @@ app.get("/", (req, res) => {
   res.send("MMA Tradex LLP API is running.");
 });
 
+// ==========================================
+// 404 ERROR HANDLER (SABSE LAST ME)
+// ==========================================
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
+// Global Error Handler
 app.use((err, req, res, next) => {
   console.error('❌ Server error:', err);
   res.status(500).json({ error: err.message || 'Internal server error' });
