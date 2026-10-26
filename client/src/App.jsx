@@ -10,6 +10,7 @@ import Footer from "./components/layout/Footer";
 import AIChatbot from "./components/ui/AIChatbot";
 import AdminDashboard from "./pages/AdminDashboard"; // <-- Naya Import
 import useScrollAnimation from "./hooks/useScrollAnimation";
+import Estimator from "./components/sections/Estimator";
 
 export default function App() {
   useScrollAnimation();
@@ -24,6 +25,7 @@ export default function App() {
             <main>
               <Hero />
               <WhatWeDo />
+              <Estimator />
               <Advantage />
               <Process />
               <About />

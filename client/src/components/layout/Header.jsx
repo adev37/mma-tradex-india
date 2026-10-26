@@ -17,6 +17,7 @@ export default function Header() {
 
   const links = [
     { href: "#model", label: "What We Do" },
+     { href: "#estimator", label: "AI Estimator" },
     { href: "#advantage", label: "IPR Advantage" },
     { href: "#process", label: "How It Works" },
     { href: "#about", label: "About" },
