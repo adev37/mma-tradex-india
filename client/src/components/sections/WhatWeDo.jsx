@@ -7,9 +7,10 @@ export default function WhatWeDo() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div className="max-w-3xl mb-16 reveal">
-          <div className="text-primary font-mono text-xs tracking-widest uppercase mb-4 flex items-center gap-2">
-            <span className="w-8 h-[1px] bg-primary"></span> Our Model
-          </div>
+<div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+  <span className="text-[11px] font-mono font-bold text-primary uppercase tracking-widest">Our Model</span>
+</div>
           <h2 className="text-3xl sm:text-5xl font-serif font-bold text-foreground mb-6 leading-tight">
             Two ways one technology <br className="hidden sm:block"/> creates value.
           </h2>

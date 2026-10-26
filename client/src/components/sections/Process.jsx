@@ -8,11 +8,17 @@ const steps = [
 export default function Process() {
   return (
     <section id="process" className="py-24 lg:py-32 bg-surface relative overflow-hidden">
+      
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-primary/5 dark:bg-primary/10 rounded-full blur-[120px] pointer-events-none"></div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        <div className="max-w-3xl mb-16 reveal">
-          <div className="text-primary font-mono text-xs tracking-widest uppercase mb-4 flex items-center gap-2">
-            <span className="w-8 h-[1px] bg-primary"></span> Methodology
+        {/* Section Header */}
+        <div className="max-w-3xl mb-20 reveal">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            <span className="text-[11px] font-mono font-bold text-primary uppercase tracking-widest">Methodology</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-serif font-bold text-foreground mb-6 leading-tight">
             From technology <br/> to revenue.
@@ -22,28 +28,45 @@ export default function Process() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 relative">
-          {/* Connecting Line (Desktop Only) */}
-          <div className="hidden lg:block absolute top-12 left-0 w-full h-[1px] bg-gradient-to-r from-primary via-border to-transparent"></div>
+        {/* Modern Timeline Grid */}
+        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-6">
+          
+          {/* Connecting Line (Sirf desktop pe dikhegi) */}
+          <div className="hidden lg:block absolute top-[48px] left-8 right-8 h-[2px] bg-gradient-to-r from-border via-primary/50 to-border z-0"></div>
 
           {steps.map((step, index) => (
-            <div key={step.no} className="reveal group relative" style={{ transitionDelay: `${index * 100}ms` }}>
+            <div key={step.no} className="relative reveal group z-10" style={{ transitionDelay: `${index * 100}ms` }}>
+              
               {/* Number Circle */}
-              <div className="w-24 h-24 rounded-full bg-surface border-2 border-border flex items-center justify-center mb-6 relative z-10 group-hover:border-primary group-hover:bg-background transition-colors duration-300">
-                <span className="text-3xl font-mono font-bold text-muted group-hover:text-primary transition-colors duration-300">
-                  {step.no}
-                </span>
+              <div className="relative w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                {/* Outer Glow (Hover pe dikhega) */}
+                <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Main Circle */}
+                <div className="relative w-20 h-20 rounded-full bg-background border-2 border-border group-hover:border-primary flex items-center justify-center shadow-sm group-hover:shadow-[0_0_20px_var(--color-primary-glow)] transition-all duration-500 group-hover:-translate-y-1">
+                  <span className="text-2xl font-mono font-bold text-muted group-hover:text-primary transition-colors duration-300">
+                    {step.no}
+                  </span>
+                  
+                  {/* Inner Ring Animation */}
+                  <div className="absolute inset-1 rounded-full border border-border group-hover:border-primary/30 transition-colors duration-300"></div>
+                </div>
               </div>
               
-              <h3 className="text-xl font-serif font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
-                {step.title}
-              </h3>
-              <p className="text-sm text-muted leading-relaxed">
-                {step.text}
-              </p>
+              {/* Text Content */}
+              <div className="text-center px-2">
+                <h3 className="text-xl font-serif font-bold text-foreground mb-2 group-hover:text-primary transition-colors duration-300">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-muted leading-relaxed">
+                  {step.text}
+                </p>
+              </div>
+              
             </div>
           ))}
         </div>
+
       </div>
     </section>
   );

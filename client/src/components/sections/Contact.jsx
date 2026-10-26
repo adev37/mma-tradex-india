@@ -1,13 +1,41 @@
 import { useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL || '';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:10000';
 const initialForm = { name: "", email: "", message: "" };
 
 export default function Contact() {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState({ state: "idle", message: "" });
+  const [isEnhancing, setIsEnhancing] = useState(false);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleEnhance = async () => {
+    if (!form.message.trim()) {
+      setStatus({ state: "error", message: "Please write something first to enhance." });
+      return;
+    }
+
+    setIsEnhancing(true);
+    setStatus({ state: "idle", message: "" });
+
+    try {
+      const res = await fetch(`${API_URL}/api/ai/enhance-message`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: form.message }),
+      });
+      const data = await res.json();
+      
+      if (!res.ok) throw new Error(data.error);
+      
+      setForm({ ...form, message: data.enhancedText });
+    } catch (err) {
+      setStatus({ state: "error", message: "AI could not enhance the message. Please try again." });
+    } finally {
+      setIsEnhancing(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,12 +62,13 @@ export default function Contact() {
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           
-          {/* Left Side - Contact Info (Spans 2 columns) */}
+          {/* Left Side - Contact Info */}
           <div className="reveal">
-            <div className="text-primary font-mono text-xs tracking-widest uppercase mb-4 flex items-center gap-2">
-              <span className="w-8 h-[1px] bg-primary"></span> Get In Touch
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+              <span className="text-[11px] font-mono font-bold text-primary uppercase tracking-widest">Get In Touch</span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-serif font-bold text-foreground mb-6 leading-tight">
               Let's discuss your <br className="hidden lg:block"/> next tech milestone.
@@ -84,7 +113,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Right Side - Modern Form (Spans 3 columns) */}
+          {/* Right Side - Modern Form */}
           <div className="reveal" style={{ transitionDelay: '100ms' }}>
             <form onSubmit={handleSubmit} className="bg-surface/30 backdrop-blur-xl border border-border/60 rounded-3xl p-8 md:p-10 shadow-[0_0_50px_rgba(0,0,0,0.3)] relative overflow-hidden">
               
@@ -121,8 +150,26 @@ export default function Contact() {
                   </div>
                 </div>
                 
+                {/* Message Field with AI Enhance Button */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">Message</label>
+                  <div className="flex justify-between items-center mb-2">
+                    <label htmlFor="message" className="block text-sm font-medium text-foreground">Message</label>
+                    
+                    {/* AI Enhance Button */}
+                    <button 
+                      type="button"
+                      onClick={handleEnhance}
+                      disabled={isEnhancing}
+                      className="flex items-center gap-1.5 px-2.5 py-1 bg-primary/10 hover:bg-primary/20 text-primary rounded-md text-xs font-semibold transition-colors disabled:opacity-50"
+                    >
+                      {isEnhancing ? (
+                        <><svg className="animate-spin h-3 w-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Enhancing...</>
+                      ) : (
+                        <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg> Enhance with AI</>
+                      )}
+                    </button>
+                  </div>
+                  
                   <textarea 
                     id="message" 
                     name="message" 

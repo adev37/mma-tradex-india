@@ -32,24 +32,27 @@
 
 /* ============================================
    LIGHT THEME OVERRIDES
-   Jab HTML tag pe 'light' class hogi, tab ye colors apply honge.
-   (Default abhi dark hi rahega)
    ============================================ */
 :root.light {
-  --color-background:       #FAFAFA;  /* Off-white */
-  --color-surface:          #FFFFFF;  /* Pure White */
-  --color-surface-hover:    #F4F4F5;  
+  /* Background ko thoda crisp white kiya */
+  --color-background:       #FFFFFF;  
+  --color-surface:          #F8FAFC;  /* Cards ke liye halka off-white */
+  --color-surface-hover:    #F1F5F9;  
 
-  --color-primary:          #059669;  /* Darker Emerald for light bg */
-  --color-primary-hover:    #047857;
-  --color-primary-glow:     rgba(5, 150, 105, 0.15); 
+  /* Primary Green ko thoda dark kiya taaki text chamke */
+  --color-primary:          #047857;  /* Darker Emerald */
+  --color-primary-hover:    #065F46;
+  --color-primary-glow:     rgba(4, 120, 87, 0.2); 
 
-  --color-accent:           #D97706;  /* Darker Gold */
-  --color-accent-hover:     #B45309;
+  /* Accent Gold ko thoda dark kiya */
+  --color-accent:           #B45309;  /* Darker Amber */
+  --color-accent-hover:     #92400E;
 
-  --color-foreground:       #09090B;  /* Almost Black text */
-  --color-muted:            #52525B;  /* Gray text */
+  /* Text ko ekdum dark/black kiya */
+  --color-foreground:       #0F172A;  /* Slate 900 (Almost black) */
+  --color-muted:            #475569;  /* Slate 600 (Grey text, readable) */
   
-  --color-border:           #E4E4E7;
-  --color-border-hover:     #D4D4D8;
+  /* Borders ko thoda dark kiya taaki clearly dikhe */
+  --color-border:           #CBD5E1;
+  --color-border-hover:     #94A3B8;
 }

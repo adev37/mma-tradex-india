@@ -17,9 +17,10 @@ export default function About() {
           
           {/* Left Side: Text Content */}
           <div className="reveal">
-            <div className="text-primary font-mono text-xs tracking-widest uppercase mb-4 flex items-center gap-2">
-              <span className="w-8 h-[1px] bg-primary"></span> About Us
-            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+  <span className="text-[11px] font-mono font-bold text-primary uppercase tracking-widest">About Us</span>
+</div>
             <h2 className="text-4xl sm:text-5xl font-serif font-bold text-foreground mb-8 leading-tight">
               MMA Tradex <span className="text-primary italic">LLP</span>
             </h2>

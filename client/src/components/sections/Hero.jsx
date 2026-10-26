@@ -1,15 +1,15 @@
 export default function Hero() {
   return (
-<section className="relative min-h-screen flex items-center pt-32 lg:pt-40 overflow-hidden bg-background">
+<section className="relative lg:min-h-screen flex items-center pt-32 lg:pt-40 pb-20 overflow-hidden bg-background">
       {/* Background Gradients */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 dark:bg-primary/20 rounded-full blur-[120px] pointer-events-none"></div>
+<div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 dark:bg-accent/20 rounded-full blur-[120px] pointer-events-none"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
           <div className="max-w-2xl reveal">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-border mb-6">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
               <span className="text-sm font-medium text-muted">Next-Gen AI & IPR Consultancy</span>
             </div>
@@ -26,9 +26,10 @@ export default function Hero() {
                 Partner With Us
                 <span className="group-hover:translate-x-1 transition-transform">→</span>
               </a>
-              <a href="#model" className="bg-white/5 border border-white/10 text-foreground px-8 py-4 rounded-lg font-semibold text-center hover:bg-white/10 transition-colors">
-                Explore Our Tech
-              </a>
+
+<a href="#model" className="bg-background border border-border text-foreground px-8 py-4 rounded-lg font-semibold text-center hover:bg-surface transition-colors">
+  Explore Our Tech
+</a>
             </div>
           </div>
 
@@ -41,7 +42,7 @@ export default function Hero() {
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/20 rounded-full blur-[80px] -z-10"></div>
 
             {/* Main Glass Card */}
-            <div className="relative bg-surface/40 backdrop-blur-xl border border-border/80 p-8 rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.5)] group hover:border-primary/40 transition-all duration-500">
+            <div className="relative bg-surface backdrop-blur-xl border border-border p-8 rounded-3xl shadow-xl group hover:border-primary/40 transition-all duration-500">
               
               {/* Card Header */}
               <div className="flex justify-between items-center mb-6 pb-4 border-b border-border/50">

@@ -118,10 +118,10 @@ export default function IprAnalyzer() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
                     <div className="text-center max-w-3xl mx-auto mb-16 reveal">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">
-                            <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                            <span className="text-xs font-mono text-primary uppercase tracking-wider">IPR Intelligence</span>
-                        </div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+  <span className="text-[11px] font-mono font-bold text-primary uppercase tracking-widest">IPR Intelligence</span>
+</div>
                         <h2 className="text-3xl sm:text-5xl font-serif font-bold text-foreground mb-6">
                             Is Your Idea <span className="text-primary italic">Patentable?</span>
                         </h2>

@@ -61,10 +61,10 @@ export default function Header() {
       
       {/* Floating Pill Container */}
       <div className={`w-[95%] max-w-6xl transition-all duration-500 rounded-full border flex items-center justify-between px-4 md:px-6 py-3
-        ${scrolled 
-          ? 'bg-background/70 backdrop-blur-xl border-border/50 shadow-lg shadow-black/20' 
-          : 'bg-transparent border-transparent'
-        }`}
+       ${scrolled 
+  ? 'bg-background/90 backdrop-blur-xl border-border shadow-lg shadow-black/5' 
+  : 'bg-transparent border-transparent'
+}`}
       >
         
         {/* Brand - Premium Logo (Updated with onClick) */}

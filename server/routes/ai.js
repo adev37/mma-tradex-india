@@ -141,4 +141,37 @@ router.post("/analyze-ipr", async (req, res) => {
   }
 });
 
+// 3. Naya Route: Enhance Contact Message
+router.post("/enhance-message", async (req, res) => {
+  try {
+    const { message } = req.body;
+    if (!message) return res.status(400).json({ error: "Message is required" });
+
+    let lastError = null;
+    let replyText = null;
+
+    for (const modelName of MODEL_CHAIN) {
+      try {
+        const model = genAI.getGenerativeModel({ 
+          model: modelName,
+          systemInstruction: "You are an expert business communication assistant. Rewrite the user's message into a professional, clear, and polite email body. Keep it short and direct. Do not add any placeholder text like [Your Name]. Just return the improved message text."
+        });
+        
+        const result = await model.generateContent(message);
+        replyText = result.response.text();
+        break;
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    if (!replyText) throw lastError || new Error("All models failed");
+    res.status(200).json({ enhancedText: replyText });
+
+  } catch (error) {
+    console.error("Enhance Error:", error);
+    res.status(500).json({ error: "Failed to enhance message." });
+  }
+});
+
 export default router;

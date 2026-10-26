@@ -42,10 +42,10 @@ export default function Estimator() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         <div className="text-center max-w-3xl mx-auto mb-16 reveal">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-4">
-            <span className="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
-            <span className="text-xs font-mono text-accent uppercase tracking-wider">AI Powered Tool</span>
-          </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 mb-4">
+  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+  <span className="text-[11px] font-mono font-bold text-primary uppercase tracking-widest">AI Powered Tool</span>
+</div>
           <h2 className="text-3xl sm:text-5xl font-serif font-bold text-foreground mb-6">
             Get Instant <span className="text-accent italic">Project Estimate</span>
           </h2>
