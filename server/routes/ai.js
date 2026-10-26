@@ -94,4 +94,51 @@ router.post("/estimate", async (req, res) => {
   }
 });
 
+// Naya Route: AI IPR Analyzer
+router.post("/analyze-ipr", async (req, res) => {
+  try {
+    const { idea } = req.body;
+    if (!idea) return res.status(400).json({ error: "Idea is required" });
+
+    let lastError = null;
+    let resultData = null;
+
+    for (const modelName of MODEL_CHAIN) {
+      try {
+        const model = genAI.getGenerativeModel({ 
+          model: modelName,
+          generationConfig: { responseMimeType: "application/json" }
+        });
+
+        const prompt = `
+          You are an expert Intellectual Property Rights (IPR) Consultant at MMA Tradex LLP.
+          A client wants to know the patentability of this idea: "${idea}"
+          
+          Provide a professional analysis in STRICT JSON format. Do not use markdown.
+          The JSON must have exactly these keys:
+          {
+            "noveltyScore": "A percentage (e.g., '75%')",
+            "summary": "2-line summary of the idea's uniqueness",
+            "patentableAreas": ["Area 1", "Area 2", "Area 3"],
+            "risks": ["Risk 1", "Risk 2"],
+            "recommendation": "Short advice on whether to file a patent or trademark"
+          }
+        `;
+
+        const result = await model.generateContent(prompt);
+        resultData = JSON.parse(result.response.text());
+        break; 
+      } catch (error) {
+        lastError = error;
+      }
+    }
+
+    if (!resultData) throw lastError || new Error("All models failed");
+    res.status(200).json({ analysis: resultData });
+
+  } catch (error) {
+    res.status(500).json({ error: "Failed to analyze. Please try again." });
+  }
+});
+
 export default router;

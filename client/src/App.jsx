@@ -8,9 +8,10 @@ import About from "./components/sections/About";
 import Contact from "./components/sections/Contact";
 import Footer from "./components/layout/Footer";
 import AIChatbot from "./components/ui/AIChatbot";
-import AdminDashboard from "./pages/AdminDashboard"; // <-- Naya Import
+import AdminDashboard from "./pages/AdminDashboard";
 import useScrollAnimation from "./hooks/useScrollAnimation";
 import Estimator from "./components/sections/Estimator";
+import IprAnalyzer from "./components/sections/IprAnalyzer";
 
 export default function App() {
   useScrollAnimation();
@@ -26,6 +27,7 @@ export default function App() {
               <Hero />
               <WhatWeDo />
               <Estimator />
+              <IprAnalyzer />
               <Advantage />
               <Process />
               <About />
