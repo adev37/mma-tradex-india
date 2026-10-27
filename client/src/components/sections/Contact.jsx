@@ -58,8 +58,8 @@ export default function Contact() {
   return (
 <section id="contact" className="pt-32 lg:pt-40 pb-24 bg-background relative overflow-hidden scroll-mt-24">
       {/* Background Orbs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
+      <div className="absolute top-0 right-0 w-150 h-150 bg-primary/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
+      <div className="absolute bottom-0 left-0 w-100 h-100 bg-accent/5 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -118,7 +118,7 @@ export default function Contact() {
             <form onSubmit={handleSubmit} className="bg-surface/30 backdrop-blur-xl border border-border/60 rounded-3xl p-8 md:p-10 shadow-[0_0_50px_rgba(0,0,0,0.3)] relative overflow-hidden">
               
               {/* Form Top Gradient Line */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary to-transparent opacity-50"></div>
 
               <div className="flex flex-col gap-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

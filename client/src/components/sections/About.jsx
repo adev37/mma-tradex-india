@@ -10,7 +10,7 @@ export default function About() {
     <section id="about" className="py-24 lg:py-32 bg-surface relative overflow-hidden">
       
       {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-primary/5 rounded-full blur-[150px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -30,7 +30,7 @@ export default function About() {
                 MMA Tradex LLP is built around a single idea: <strong className="text-foreground font-medium">technology is worth more when it's owned.</strong> We develop AI technology in-house, secure it under intellectual property rights, and put it to work in two directions.
               </p>
               <p>
-                This structure keeps our technology development effort productive on both fronts — as elite consultancy services for clients, and as continuous upgrades to our own products — rather than treating services and product as separate businesses.
+                This structure keeps our technology development effort productive on both fronts as elite consultancy services for clients, and as continuous upgrades to our own products rather than treating services and product as separate businesses.
               </p>
             </div>
 
